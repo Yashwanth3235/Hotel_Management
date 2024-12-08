@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Management</title>
+<link rel="stylesheet" href="/css/Dashboard.css">
+
+<style>
+/* Global Styles */
+body {
+	font-family: Arial, sans-serif;
+	margin: 20px;
+	padding: 0;
+	background-color: #f5f5f5;
+	color: #333;
+}
+
+h2 {
+	color: #007bff;
+}
+
+/* Form Styles */
+.form-container {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin-bottom: 30px;
+}
+
+.form-container input, .form-container textarea, .form-container button
+	{
+	display: block;
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+.form-container textarea {
+	resize: vertical;
+	height: 80px;
+}
+
+.form-container button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+	background-color: #0056b3;
+}
+
+/* Dashboard Styles */
+.dashboard {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: flex-start;
+}
+
+.card {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	width: 300px;
+	text-align: center;
+}
+
+.card img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+}
+
+.card h3 {
+	font-size: 20px;
+	margin: 10px 0;
+	color: #333;
+}
+
+.card p {
+	font-size: 14px;
+	color: #555;
+	margin: 5px 0;
+}
+
+/* Responsive Design */
+@media ( max-width : 768px) {
+	.form-container input, .form-container textarea, .form-container button
+		{
+		font-size: 14px;
+	}
+	.card {
+		width: 100%;
+	}
+}
+</style>
+</head>
+<body>
+	<header class="wrapper">
+		<nav class="navbar">
+			<div class="navbar-left">
+				<img
+					src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple"
+					alt="Company Logo" class="logo"> <span class="company-name">HotelEase</span>
+			</div>
+			<div class="navbar-center">
+				<a href="/addHotel" class="nav-link">Add Hotel</a> <a
+					href="/hotelslist" class="nav-link">List of Hotels</a> <a
+					href="#bookings_list" class="nav-link">View all bookings</a> <a
+					href="#Customer support" class="nav-link">Customer Support</a>
+
+
+			</div>
+			<div class="navbar-right">
+				<button class="login-btn">
+					<a href="/login">Logout</a>
+				</button>
+			</div>
+		</nav>
+	</header>
+	<div class="form-container">
+		<h2>Add Hotel</h2>
+		<form id="hotelForm">
+			<input type="text" id="hotelName" name="hotelName"
+				placeholder="Hotel Name" required> <input type="text"
+				id="location" name="location" placeholder="Location" required>
+			<textarea id="description" name="description"
+				placeholder="Description" required></textarea>
+			<input type="email" id="email" name="email" placeholder="Email"
+				required> <input type="number" id="price" name="price"
+				placeholder="Price Per Day" required> <input type="number"
+				id="totalRooms" name="totalRooms" placeholder="Total Rooms" required>
+			<input type="text" id="street" name="street" placeholder="Street"
+				required> <input type="text" id="pinCode" name="pinCode"
+				placeholder="Pin Code" required> <input type="file"
+				id="image1" name="image1" accept="image/*" required> <input
+				type="file" id="image2" name="image2" accept="image/*" required>
+			<button type="submit">Add Hotel</button>
+		</form>
+	</div>
+	<footer class="footer">
+		<div class="footer-info">
+			<h3>HotelEase</h3>
+			<p>Providing seamless hotel booking solutions since 2024.</p>
+			<p>Contact us: info@hoteleaze.com | +123-456-7890</p>
+		</div>
+	</footer>
+</body>
+<script>
+document.getElementById('hotelForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('http://localhost:8080/api/hotels', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            alert('Hotel added successfully!');
+            this.reset(); // Clear the form
+        } else {
+            alert('Failed to add hotel. Please check your input.');
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('An error occurred. Please try again later.');
+    }
+});
+</script>
+
+</html>

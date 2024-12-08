@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.example.hotel_booking.repository")
+@EnableJpaRepositories(basePackages = "com.example.hotel_booking")
 
 public class HotelBookingApplication {
 

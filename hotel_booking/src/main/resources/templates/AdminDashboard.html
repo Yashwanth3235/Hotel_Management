@@ -1,13 +1,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>AdminDashboard</title>
+      <link rel="stylesheet" href="/css/Dashboard.css">
+    
 </head>
+<style>
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Background Section */
+.welcome-section {
+  height: 100vh;
+  background: url('https://wallpapers.com/images/hd/virtual-background-vx5y73dnjfw3hqcc.jpg') no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Overlay with Gradient */
+.overlay {
+  text-align: center;
+  color: white;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for contrast */
+  border-radius: 15px;
+  max-width: 80%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 1.5s ease-out;
+}
+
+/* Text Styling */
+.overlay h1 {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.overlay p {
+  font-size: 1.3rem;
+  margin: 10px 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Call-to-Action Button */
+.cta-btn {
+  margin-top: 20px;
+  padding: 15px 30px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-5px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
 <body>
-    <!--   <h1>Welcome, <span th:text="${user.email}">Email</span>!</h1>
-    <p>First Name: <span th:text="${user.firstname}">First Name</span></p>
-    <p>Last Name: <span th:text="${user.lastname}">Last Name</span></p>
-    <a href="/logout">Logout</a> -->
-    this is admin dashboard
+      <header class="wrapper">
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple" alt="Company Logo" class="logo">
+      <span class="company-name">HotelEase</span>
+    </div>
+    <div class="navbar-center">
+      <a href="/addHotel" class="nav-link">Add Hotel</a>
+      <a href="/hotelslist" class="nav-link">List of Hotels</a>
+      <a href="/allbookingslist" class="nav-link">View all bookings</a>
+      <a href="#Customer support" class="nav-link">Customer Support</a>
+     
+    </div>
+    <div class="navbar-right">
+      <button class="login-btn">
+      <a href="/login">Logout</a>
+      </button>
+    </div>
+  </nav>
+</header>
+
+
+  <div class="dashboard" id="dashboard">
+        <!-- Hotel cards will be displayed here -->
+    </div>
+    <body>
+ <div class="welcome-section">
+    <div class="overlay">
+      <h1>Welcome to HotelEase Admin</h1>
+      <p>"Escape to a place of tranquility"</p>
+      <p>"Your dream stay is just a click away"</p>
+    </div>
+  </div>
+    
+<footer class="footer">
+  <div class="footer-info">
+    <h3>HotelEase</h3>
+    <p>Providing seamless hotel booking solutions since 2024.</p>
+    <p>Contact us: info@hoteleaze.com | +123-456-7890</p>
+  </div>
+</footer>
+<script src="/js/fetchHotels.js"></script>
+
 </body>
 </html>

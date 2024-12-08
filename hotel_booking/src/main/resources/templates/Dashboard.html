@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to HotelEase</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: url('https://wallpapers.com/images/featured/hotel-pictures-o9d1lk0gt8hdf0ws.jpg') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Overlay for better readability */
+      z-index: 1;
+    }
+
+    .hero-content {
+      z-index: 2; /* Ensure content is above the overlay */
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .hero .btn {
+      font-size: 1.2rem;
+      padding: 15px 30px;
+      color: #fff;
+      background: #ff5722;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .hero .btn:hover {
+      background: #e64a19;
+      transform: scale(1.1);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #ff5722;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to HotelEase</h1>
+      <p>Experience luxury like never before. Book your dream stay today and enjoy unparalleled comfort!</p>
+      <a href="/login" class="btn">Login to Get Started</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2024 HotelEase | <a href="/aboutus">About Us</a> | <a href="/contactus">Contact Us</a>
+  </footer>
+
+</body>
+</html>

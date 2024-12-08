@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hotel Management</title>
+<style>
+.hotel-card {
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin: 10px;
+	border-radius: 5px;
+}
+
+/* Modal styling */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 50%;
+	border-radius: 10px;
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+</style>
+<link rel="stylesheet" href="/css/Dashboard.css">
+
+</head>
+<body>
+	<header class="wrapper">
+		<nav class="navbar">
+			<div class="navbar-left">
+				<img
+					src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple"
+					alt="Company Logo" class="logo"> <span class="company-name">HotelEase</span>
+			</div>
+			<div class="navbar-center">
+				<a href="/addHotel" class="nav-link">Add Hotel</a> <a
+					href="/hotelslist" class="nav-link">List of Hotels</a> <a
+					href="#bookings_list" class="nav-link">View all bookings</a> <a
+					href="#Customer support" class="nav-link">Customer Support</a>
+
+
+			</div>
+			<div class="navbar-right">
+				<button class="login-btn">
+					<a href="/login">Logout</a>
+				</button>
+			</div>
+		</nav>
+	</header>
+	<h1>Hotel Management</h1>
+
+	<h2>All Hotels</h2>
+	<div id="hotels-container"></div>
+
+	<!-- Modal for editing -->
+	<div id="edit-modal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Edit Hotel</h2>
+			<form id="edit-hotel-form">
+				<input type="hidden" id="edit-hotel-id"> <label>Hotel
+					Name:</label> <input type="text" id="edit-hotelName" required><br>
+				<br> <label>Location:</label> <input type="text"
+					id="edit-location" required><br>
+				<br> <label>Email:</label> <input type="email" id="edit-email"
+					required><br>
+				<br> <label>Price Per Day:</label> <input type="number"
+					id="edit-price" required><br>
+				<br> <label>Total Rooms:</label> <input type="number"
+					id="edit-totalRooms" required><br>
+				<br> <label>Description:</label>
+				<textarea id="edit-description"></textarea>
+				<br>
+				<br> <label>Street:</label> <input type="text" id="edit-street"><br>
+				<br> <label>Pin Code:</label> <input type="text"
+					id="edit-pinCode"><br>
+				<br>
+				<button type="submit">Save Changes</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+        const apiUrl = 'http://localhost:8080/api/hotels';
+        const hotelsContainer = document.getElementById('hotels-container');
+        const editModal = document.getElementById('edit-modal');
+        const closeModalBtn = document.querySelector('.close');
+        const editHotelForm = document.getElementById('edit-hotel-form');
+
+        // Fetch and display all hotels
+        async function fetchHotels() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                hotelsContainer.innerHTML = '';
+                data.forEach(hotel => {
+                    const hotelCard = document.createElement('div');
+                    hotelCard.classList.add('hotel-card');
+                    hotelCard.innerHTML = `
+                        <h3>${hotel.hotelName}</h3>
+                        <p>Location: ${hotel.location}</p>
+                        <p>Email: ${hotel.email}</p>
+                        <p>Price Per Day: ₹${hotel.price}</p>
+                        <p>Total Rooms: ${hotel.totalRooms}</p>
+                        <p>Description: ${hotel.description}</p>
+                        <p>Street: ${hotel.street}</p>
+                        <p>Pin Code: ${hotel.pinCode}</p>
+                        <button onclick="editHotel(${hotel.id})">Edit</button>
+                        <button onclick="deleteHotel(${hotel.id})">Delete</button>
+                    `;
+                    hotelsContainer.appendChild(hotelCard);
+                });
+            } catch (error) {
+                console.error('Error fetching hotels:', error);
+            }
+        }
+
+     // Open modal with hotel details for editing
+        async function editHotel(id) {
+            try {
+                const response = await fetch(`${apiUrl}/${id}`);
+                const hotel = await response.json();
+                document.getElementById('edit-hotel-id').value = hotel.id;
+                document.getElementById('edit-hotelName').value = hotel.hotelName;
+                document.getElementById('edit-location').value = hotel.location;
+                document.getElementById('edit-email').value = hotel.email;
+                document.getElementById('edit-price').value = hotel.price;
+                document.getElementById('edit-totalRooms').value = hotel.totalRooms;
+                document.getElementById('edit-description').value = hotel.description;
+                document.getElementById('edit-street').value = hotel.street;
+                document.getElementById('edit-pinCode').value = hotel.pinCode;
+
+                editModal.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching hotel details:', error);
+            }
+        }
+     
+        // Close modal
+        closeModalBtn.onclick = function () {
+            editModal.style.display = 'none';
+        };
+
+        // Save edited hotel
+       editHotelForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const id = document.getElementById('edit-hotel-id').value;
+
+    const hotelData = {
+        hotelName: document.getElementById('edit-hotelName').value,
+        location: document.getElementById('edit-location').value,
+        email: document.getElementById('edit-email').value,
+        price: parseFloat(document.getElementById('edit-price').value),
+        totalRooms: parseInt(document.getElementById('edit-totalRooms').value),
+        description: document.getElementById('edit-description').value,
+        street: document.getElementById('edit-street').value,
+        pinCode: document.getElementById('edit-pinCode').value,
+    };
+
+    fetch(`${apiUrl}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(hotelData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP status ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(() => {
+            editModal.style.display = 'none';
+            fetchHotels();
+        })
+        .catch(error => {
+            console.error('Failed to update hotel:', error);
+        });
+});
+
+
+        // Delete hotel
+       async function deleteHotel(id) {
+            try {
+                await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+                fetchHotels();
+            } catch (error) {
+                console.error('Error deleting hotel:', error);
+            }
+        }
+
+
+        // Initial Fetch
+        fetchHotels();
+
+        // Close the modal when clicking outside it
+        window.onclick = function (event) {
+            if (event.target == editModal) {
+                editModal.style.display = 'none';
+            }
+        };
+    </script>
+	<footer class="footer">
+		<div class="footer-info">
+			<h3>HotelEase</h3>
+			<p>Providing seamless hotel booking solutions since 2024.</p>
+			<p>Contact us: info@hoteleaze.com | +123-456-7890</p>
+		</div>
+	</footer>
+
+</body>
+</html>

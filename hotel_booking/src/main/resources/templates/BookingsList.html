@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Dashboard - Booking List</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-top: 20px;
+    }
+
+    /* Table Styles */
+    .booking-table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-table th,
+    .booking-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .booking-table th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .booking-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* Button Styles */
+    .btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-approve {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .btn-approve:hover {
+      background-color: #218838;
+    }
+
+    .btn-reject {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .btn-reject:hover {
+      background-color: #c82333;
+    }
+
+    /* Footer Styles */
+    .footer {
+      text-align: center;
+      padding: 10px 0;
+      background-color: #007bff;
+      color: white;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Manager Dashboard - Booking List</h1>
+  <table class="booking-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Members</th>
+        <th>Adults</th>
+        <th>Children</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="booking-list">
+      <!-- Booking rows will be dynamically loaded here -->
+    </tbody>
+  </table>
+
+  <footer class="footer">
+    <p>HotelEase Manager Panel | Efficient Booking Management</p>
+  </footer>
+
+  <script>
+    async function loadBookings() {
+      try {
+        const response = await fetch('http://localhost:8080/api/bookings');
+        const bookings = await response.json();
+
+        const bookingList = document.getElementById('booking-list');
+        bookingList.innerHTML = ''; // Clear any existing rows
+
+        bookings.forEach((booking, index) => {
+          const row = document.createElement('tr');
+
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${booking.checkinDate}</td>
+            <td>${booking.checkoutDate}</td>
+            <td>${booking.members}</td>
+            <td>${booking.adults}</td>
+            <td>${booking.children}</td>
+            <td>${booking.status}</td>
+            <td>
+              <button class="btn btn-approve" onclick="updateBookingStatus(${booking.id}, 'APPROVED')">Approve</button>
+              <button class="btn btn-reject" onclick="updateBookingStatus(${booking.id}, 'REJECTED')">Reject</button>
+            </td>
+          `;
+          bookingList.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+        alert('Failed to load bookings.');
+      }
+    }
+
+    async function updateBookingStatus(id, status) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/bookings/${id}/status?status=${status}`, {
+          method: 'PUT',
+        });
+
+        if (response.ok) {
+          alert(`Booking has been ${status.toLowerCase()}!`);
+          loadBookings(); // Reload bookings after status update
+        } else {
+          alert('Failed to update booking status.');
+        }
+      } catch (error) {
+        console.error('Error updating booking status:', error);
+        alert('Error updating booking status.');
+      }
+    }
+
+    // Load bookings on page load
+    window.onload = loadBookings;
+  </script>
+</body>
+</html>

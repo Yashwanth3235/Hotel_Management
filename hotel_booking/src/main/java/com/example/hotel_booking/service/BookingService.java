@@ -18,6 +18,11 @@ public class BookingService {
     public List<BookingModel> getAllBookings() {
         return bookingRepository.findAll();
     }
+    
+    // Method to save booking
+    public BookingModel saveBooking(BookingModel booking) {
+        return bookingRepository.save(booking);
+    }
 
     public void updateBookingStatus(Long id, String status) {
         Optional<BookingModel> optionalBooking = bookingRepository.findById(id);
@@ -29,4 +34,18 @@ public class BookingService {
             throw new RuntimeException("Booking not found with id: " + id);
         }
     }
+
+//	public BookingModel createBooking(BookingModel booking) {
+//        // Ensure all fields are valid and saved in the database
+//        return bookingRepository.save(booking);
+//    }
+	  public BookingModel createBooking(BookingModel booking) {
+	        // Save booking to the database
+	        BookingModel savedBooking = bookingRepository.save(booking);
+
+	        // Simulate sending notification to the manager
+	        System.out.println("New booking request sent to the manager for approval: " + savedBooking);
+
+	        return savedBooking;
+	    }
 }

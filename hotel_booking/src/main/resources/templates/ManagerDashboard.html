@@ -152,20 +152,16 @@ h2 {
 	<div class="form-container">
 		<h2>Add Hotel</h2>
 		<form id="hotelForm">
-			<input type="text" id="hotelName" name="hotelName"
-				placeholder="Hotel Name" required> <input type="text"
-				id="location" name="location" placeholder="Location" required>
-			<textarea id="description" name="description"
-				placeholder="Description" required></textarea>
-			<input type="email" id="email" name="email" placeholder="Email"
-				required> <input type="number" id="price" name="price"
-				placeholder="Price Per Day" required> <input type="number"
-				id="totalRooms" name="totalRooms" placeholder="Total Rooms" required>
-			<input type="text" id="street" name="street" placeholder="Street"
-				required> <input type="text" id="pinCode" name="pinCode"
-				placeholder="Pin Code" required> <input type="file"
-				id="image1" name="image1" accept="image/*" required> <input
-				type="file" id="image2" name="image2" accept="image/*" required>
+			<input type="text" id="hotelName" name="hotelName" placeholder="Hotel Name" required> 
+			<input type="text" id="location" name="location" placeholder="Location" required>
+			<textarea id="description" name="description" placeholder="Description" required></textarea>
+			<input type="email" id="email" name="email" placeholder="Email" required>
+			<input type="number" id="price" name="price" placeholder="Price Per Day" required> 
+			<input type="number" id="totalRooms" name="totalRooms" placeholder="Total Rooms" required>
+			<input type="text" id="street" name="street" placeholder="Street" required> 
+			<input type="text" id="pinCode" name="pinCode" placeholder="Pin Code" required> 
+			<input type="file" id="image1" name="image1" accept="image/*" required> 
+			<input type="file" id="image2" name="image2" accept="image/*" required>
 			<button type="submit">Add Hotel</button>
 		</form>
 	</div>
@@ -206,10 +202,9 @@ h2 {
       try {
         const response = await fetch('http://localhost:8080/api/hotels', {
           method: 'POST',
-          body: JSON.stringify(Object.fromEntries(formData)),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          body: formData, // Send as FormData for file uploads
+
+          
         });
 
         if (response.ok) {
@@ -220,8 +215,9 @@ h2 {
           alert('Failed to add hotel. Please check your input.');
         }
       } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('An error occurred. Please try again later.');
+    	  const errorData = await response.json();
+          console.error('Error response:', errorData);
+          alert('Failed to add hotel. Please check your input.');
       }
     });
 

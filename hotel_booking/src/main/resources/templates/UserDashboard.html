@@ -223,7 +223,9 @@
         <label for="children">Children</label>
         <input type="number" id="children" name="children" required min="0">
 
+        <!-- Add hidden inputs -->
         <input type="hidden" id="hotelName" name="hotelName">
+        <input type="hidden" id="hotelId" name="hotelId">
 
         <button type="submit">Confirm Booking</button>
       </form>
@@ -254,7 +256,7 @@
             <p>${hotel.location}</p>
             <p>Price: Rs ${hotel.price} / day</p>
             <p>Available Rooms: ${hotel.totalRooms}</p>
-            <button onclick="openBookingForm('${hotel.hotelName}')">Book Now</button>
+            <button onclick="openBookingForm('${hotel.hotelName}', ${hotel.id})">Book Now</button>
           `;
           dashboard.appendChild(card);
         });
@@ -264,9 +266,10 @@
       }
     }
 
-    function openBookingForm(hotelName) {
+    function openBookingForm(hotelName, hotelId) {
       document.getElementById('bookingModal').classList.add('active');
       document.getElementById('hotelName').value = hotelName;
+      document.getElementById('hotelId').value = hotelId; // Assign hotelId
     }
 
     function closeBookingForm() {
@@ -282,7 +285,8 @@
         members: document.getElementById('members').value,
         adults: document.getElementById('adults').value,
         children: document.getElementById('children').value,
-        hotelName: document.getElementById('hotelName').value
+        hotelName: document.getElementById('hotelName').value,
+        hotelId: document.getElementById('hotelId').value // Include hotelId
       };
 
       try {

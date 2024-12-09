@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
 public interface HotelRepository extends JpaRepository<HotelModel, Long> {
 	@Query("SELECT DISTINCT h.location FROM HotelModel h")
@@ -15,5 +14,10 @@ public interface HotelRepository extends JpaRepository<HotelModel, Long> {
     // Custom query method to find hotels by location
     List<HotelModel> findByLocation(String location);
     List<HotelModel> findByLocationContainingIgnoreCase(String location);
+
+	static HotelModel findByHotelName(String hotelName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

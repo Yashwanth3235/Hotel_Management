@@ -29,7 +29,7 @@ public class HotelController {
     private HotelRepository hotelRepository;
 
     // Add a new hotel with image uploads
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<HotelModel> addHotel(
         @RequestParam("hotelName") String hotelName,
         @RequestParam("location") String location,
@@ -44,14 +44,14 @@ public class HotelController {
     ) {
         try {
             // Log received data for debugging
-            System.out.println("Received Hotel Name: " + hotelName);
-            System.out.println("Received Location: " + location);
-            System.out.println("Received Email: " + email);
-            System.out.println("Received Price: " + price);
-            System.out.println("Received Total Rooms: " + totalRooms);
-            System.out.println("Received Description: " + description);
-            System.out.println("Received Street: " + street);
-            System.out.println("Received PinCode: " + pinCode);
+//            System.out.println("Received Hotel Name: " + hotelName);
+//            System.out.println("Received Location: " + location);
+//            System.out.println("Received Email: " + email);
+//            System.out.println("Received Price: " + price);
+//            System.out.println("Received Total Rooms: " + totalRooms);
+//            System.out.println("Received Description: " + description);
+//            System.out.println("Received Street: " + street);
+//            System.out.println("Received PinCode: " + pinCode);
 
             // Save images if they are present
             String imageUrl1 = null;

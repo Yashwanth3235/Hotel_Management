@@ -44,6 +44,11 @@ public class HotelViewController {
 		return "BookingsList";
 	}
     
+    
+    @GetMapping("/allbookingslist")
+   	public String showAllBookingsLists() {
+   		return "AllBookings";
+   	}
    
   
 	

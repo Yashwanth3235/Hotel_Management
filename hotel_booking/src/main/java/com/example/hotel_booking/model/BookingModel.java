@@ -9,14 +9,27 @@ public class BookingModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private LocalDate checkinDate;
-    private LocalDate checkoutDate;
+
+	private LocalDate checkoutDate;
     private int members;
     private int adults;
     private int children;
+    
 
     private String status = "PENDING"; // PENDING, APPROVED, REJECTED
+    
+    @Column(nullable = false)
+    private Long hotelId; // Foreign key for hotel association
+
+	public Long getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(Long hotelId) {
+		this.hotelId = hotelId;
+	}
 
 	public Long getId() {
 		return id;

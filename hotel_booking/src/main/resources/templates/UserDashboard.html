@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard - HotelEase</title>
-
   <style>
     /* Global Styles */
     body {
@@ -52,13 +51,60 @@
       cursor: pointer;
     }
 
-    /* Dashboard Styles */
+    /* Container for sidebar and dashboard */
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #f8f9fa;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 10px 0;
+    }
+
+    .sidebar li button {
+      background: none;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+      padding: 5px;
+      width: 100%;
+    }
+
+    .sidebar li button:hover {
+      text-decoration: underline;
+    }
+
+    .dashboard-container {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
     .dashboard {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
-      padding: 20px;
     }
 
     .card {
@@ -181,6 +227,16 @@
       .card {
         width: 100%;
       }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+      }
+
+      .container {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -198,11 +254,18 @@
     </nav>
   </header>
 
-  <div class="dashboard">
-    <!-- Hotel Cards will be dynamically loaded here -->
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Locations</h3>
+      <ul id="locationList"></ul>
+    </aside>
+    <main class="dashboard-container">
+      <div class="dashboard">
+        <!-- Hotel Cards will be dynamically loaded here -->
+      </div>
+    </main>
   </div>
 
-  <!-- Modal for Booking Form -->
   <div class="modal" id="bookingModal">
     <div class="modal-content">
       <span class="close" onclick="closeBookingForm()">&times;</span>
@@ -210,23 +273,16 @@
       <form id="bookingForm">
         <label for="checkinDate">Check-in</label>
         <input type="date" id="checkinDate" name="checkinDate" required>
-
         <label for="checkoutDate">Check-out</label>
         <input type="date" id="checkoutDate" name="checkoutDate" required>
-
         <label for="members">Total Members</label>
         <input type="number" id="members" name="members" required min="1">
-
         <label for="adults">Adults</label>
         <input type="number" id="adults" name="adults" required min="1">
-
         <label for="children">Children</label>
         <input type="number" id="children" name="children" required min="0">
-
-        <!-- Add hidden inputs -->
         <input type="hidden" id="hotelName" name="hotelName">
         <input type="hidden" id="hotelId" name="hotelId">
-
         <button type="submit">Confirm Booking</button>
       </form>
     </div>
@@ -243,71 +299,73 @@
         const response = await fetch('http://localhost:8080/api/hotels');
         const hotels = await response.json();
 
-        const dashboard = document.querySelector('.dashboard');
-        dashboard.innerHTML = '';
+        // Group hotels by location
+        const locations = [...new Set(hotels.map(hotel => hotel.location))];
 
-        hotels.forEach(hotel => {
-          const card = document.createElement('div');
-          card.classList.add('card');
-
-          card.innerHTML = `
-            <img src="${hotel.imageUrl1 || '/images/Swimming_pool.png'}" alt="${hotel.hotelName}">
-            <h3>${hotel.hotelName}</h3>
-            <p>${hotel.location}</p>
-            <p>Price: Rs ${hotel.price} / day</p>
-            <p>Available Rooms: ${hotel.totalRooms}</p>
-            <button onclick="openBookingForm('${hotel.hotelName}', ${hotel.id})">Book Now</button>
-          `;
-          dashboard.appendChild(card);
+        // Populate location sidebar
+        const locationList = document.getElementById('locationList');
+        locationList.innerHTML = '';
+        locations.forEach(location => {
+          const li = document.createElement('li');
+          li.innerHTML = `<button onclick="filterHotelsByLocation('${location}')">${location}</button>`;
+          locationList.appendChild(li);
         });
+
+        // Display all hotels initially
+        displayHotels(hotels);
       } catch (error) {
         console.error('Error loading hotels:', error);
         alert('Error loading hotels.');
       }
     }
 
+    function displayHotels(hotels) {
+      const dashboard = document.querySelector('.dashboard');
+      dashboard.innerHTML = '';
+
+      if (hotels.length === 0) {
+        dashboard.innerHTML = '<p>No hotels available for this location.</p>';
+        return;
+      }
+
+      hotels.forEach(hotel => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        card.innerHTML = `
+          <img src="${hotel.imageUrl1}" alt="${hotel.hotelName}">
+          <h3>${hotel.hotelName}</h3>
+          <p>${hotel.location}</p>
+          <p>Price: Rs ${hotel.price} / day</p>
+          <p>Available Rooms: ${hotel.totalRooms}</p>
+          <button onclick="openBookingForm('${hotel.hotelName}', ${hotel.id})">Book Now</button>
+        `;
+        dashboard.appendChild(card);
+      });
+    }
+
+    function filterHotelsByLocation(location) {
+      fetch('http://localhost:8080/api/hotels')
+        .then(response => response.json())
+        .then(hotels => {
+          const filteredHotels = hotels.filter(hotel => hotel.location === location);
+          displayHotels(filteredHotels);
+        })
+        .catch(error => {
+          console.error('Error filtering hotels:', error);
+          alert('Unable to filter hotels.');
+        });
+    }
+
     function openBookingForm(hotelName, hotelId) {
-      document.getElementById('bookingModal').classList.add('active');
       document.getElementById('hotelName').value = hotelName;
-      document.getElementById('hotelId').value = hotelId; // Assign hotelId
+      document.getElementById('hotelId').value = hotelId;
+      document.getElementById('bookingModal').classList.add('active');
     }
 
     function closeBookingForm() {
       document.getElementById('bookingModal').classList.remove('active');
     }
-
-    document.getElementById('bookingForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const bookingDetails = {
-        checkinDate: document.getElementById('checkinDate').value,
-        checkoutDate: document.getElementById('checkoutDate').value,
-        members: document.getElementById('members').value,
-        adults: document.getElementById('adults').value,
-        children: document.getElementById('children').value,
-        hotelName: document.getElementById('hotelName').value,
-        hotelId: document.getElementById('hotelId').value // Include hotelId
-      };
-
-      try {
-        const response = await fetch('http://localhost:8080/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(bookingDetails)
-        });
-
-        if (response.ok) {
-          const savedBooking = await response.json();
-          alert(`Booking Confirmed! Booking ID: ${savedBooking.id}`);
-          closeBookingForm();
-        } else {
-          alert('Error while saving booking.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Unable to save booking.');
-      }
-    });
 
     loadHotels();
   </script>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Messages</title>
+        <link rel="stylesheet" href="/css/Dashboard.css">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+    <header class="wrapper">
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple" alt="Company Logo" class="logo">
+      <span class="company-name">HotelEase</span>
+    </div>
+    <div class="navbar-center">
+      <a href="/addHotel" class="nav-link">Add Hotel</a>
+      <a href="/hotelslist" class="nav-link">List of Hotels</a>
+      <a href="/allbookingslist" class="nav-link">View all bookings</a>
+      <a href="/customersupport" class="nav-link">Customer Support</a>
+     
+    </div>
+    <div class="navbar-right">
+      <button class="login-btn">
+      <a href="/login">Logout</a>
+      </button>
+    </div>
+  </nav>
+</header>
+  <div class="container">
+    <h1>Customer Messages</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody id="messagesTable">
+        <!-- Dynamic rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+  <footer class="footer">
+  <div class="footer-info">
+    <h3>HotelEase</h3>
+    <p>Providing seamless hotel booking solutions since 2024.</p>
+    <p>Contact us: info@hoteleaze.com | +123-456-7890</p>
+  </div>
+</footer>
+
+  <script>
+    async function fetchMessages() {
+      try {
+        // Fetch the data from the backend
+        const response = await fetch('http://localhost:8080/api/contact');
+        if (!response.ok) {
+          throw new Error('Failed to fetch messages');
+        }
+
+        const messages = await response.json();
+        const tableBody = document.getElementById('messagesTable');
+
+        // Clear existing rows
+        tableBody.innerHTML = '';
+
+        // Populate table rows dynamically
+        messages.forEach((message) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${message.id}</td>
+            <td>${message.name}</td>
+            <td>${message.email}</td>
+            <td>${message.subject}</td>
+            <td>${message.message}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Fetch messages on page load
+    window.onload = fetchMessages;
+  </script>
+</body>
+</html>

@@ -1,373 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard - HotelEase</title>
-  <style>
-    /* Global Styles */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard - HotelEase</title>
+<link rel="stylesheet" href="/css/Dashboard.css">
 
-    h2 {
-      color: #007bff;
-    }
+<style>
+/* Global Styles */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f5f5f5;
+	color: #333;
+}
 
-    /* Navbar Styles */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: black;
-      color: white;
-    }
+h2 {
+	color: #007bff;
+}
 
-    .navbar-left {
-      display: flex;
-      align-items: center;
-    }
+/* Navbar Styles */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 20px;
+	background-color: black;
+	color: white;
+}
 
-    .navbar-left img {
-      height: 40px;
-      margin-right: 10px;
-    }
+.navbar-left {
+	display: flex;
+	align-items: center;
+}
 
-    .navbar-right a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
+.navbar-left img {
+	height: 40px;
+	margin-right: 10px;
+}
 
-    .navbar-right button {
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-    }
+.navbar-right a {
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+}
 
-    /* Container for sidebar and dashboard */
-    .container {
-      display: flex;
-    }
+.navbar-right button {
+	background: none;
+	border: none;
+	color: white;
+	cursor: pointer;
+}
 
-    .sidebar {
-      width: 250px;
-      background-color: #f8f9fa;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      height: 100vh;
-      overflow-y: auto;
-    }
+/* Container for sidebar and dashboard */
+.container {
+	display: flex;
+}
 
-    .sidebar h3 {
-      font-size: 18px;
-      color: #007bff;
-      margin-bottom: 10px;
-    }
+.sidebar {
+	width: 250px;
+	background-color: #f8f9fa;
+	padding: 20px;
+	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	height: 100vh;
+	overflow-y: auto;
+}
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
+.sidebar h3 {
+	font-size: 18px;
+	color: #007bff;
+	margin-bottom: 10px;
+}
 
-    .sidebar li {
-      margin: 10px 0;
-    }
+.sidebar ul {
+	list-style: none;
+	padding: 0;
+}
 
-    .sidebar li button {
-      background: none;
-      border: none;
-      color: #007bff;
-      cursor: pointer;
-      font-size: 16px;
-      text-align: left;
-      padding: 5px;
-      width: 100%;
-    }
+.sidebar li {
+	margin: 10px 0;
+}
 
-    .sidebar li button:hover {
-      text-decoration: underline;
-    }
+.sidebar li button {
+	background: none;
+	border: none;
+	color: #007bff;
+	cursor: pointer;
+	font-size: 16px;
+	text-align: left;
+	padding: 5px;
+	width: 100%;
+}
 
-    .dashboard-container {
-      flex-grow: 1;
-      padding: 20px;
-    }
+.sidebar li button:hover {
+	text-decoration: underline;
+}
 
-    .dashboard {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+.dashboard-container {
+	flex-grow: 1;
+	padding: 20px;
+}
 
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      width: 300px;
-      text-align: center;
-      padding: 10px;
-    }
+.dashboard {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center;
+}
 
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
+.card {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	width: 300px;
+	text-align: center;
+	padding: 10px;
+	height: 400px;
+}
 
-    .card h3 {
-      font-size: 20px;
-      margin: 10px 0;
-      color: #333;
-    }
+.card img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
 
-    .card p {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0;
-    }
+.card h3 {
+	font-size: 22px;
+	margin: 10px 0;
+	color: #333;
+}
 
-    .card button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
+.card p {
+	font-size: 16px;
+	color: #555;
+	margin: 5px 0;
+}
 
-    .card button:hover {
-      background-color: #0056b3;
-    }
+.card button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	width: 100%;
+}
 
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      justify-content: center;
-      align-items: center;
-    }
+.card button:hover {
+	background-color: #0056b3;
+}
 
-    .modal-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      width: 400px;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+/* Modal Styles */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	justify-content: center;
+	align-items: center;
+}
 
-    .modal label {
-      display: block;
-      text-align: left;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	width: 400px;
+	text-align: center;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .modal input, .modal button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-    }
+.modal label {
+	display: block;
+	text-align: left;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
 
-    .modal button {
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+.modal input, .modal button {
+	width: 100%;
+	margin: 10px 0;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
 
-    .modal button:hover {
-      background-color: #0056b3;
-    }
+.modal button {
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
 
-    .modal .close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 25px;
-      cursor: pointer;
-    }
+.modal button:hover {
+	background-color: #0056b3;
+}
 
-    /* Active Modal */
-    .modal.active {
-      display: flex;
-    }
+.modal .close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 25px;
+	cursor: pointer;
+}
 
-    /* Footer Styles */
-    .footer {
-      text-align: center;
-      padding: 10px 0;
-      background-color: black;
-      color: white;
-      margin-top: 20px;
-    }
+/* Active Modal */
+.modal.active {
+	display: flex;
+}
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .card {
-        width: 100%;
-      }
+/* Footer Styles */
+.footer {
+	text-align: center;
+	padding: 10px 0;
+	background-color: black;
+	color: white;
+	margin-top: 20px;
+}
 
-      .sidebar {
-        width: 100%;
-        height: auto;
-        box-shadow: none;
-      }
-
-      .container {
-        flex-direction: column;
-      }
-    }
-  </style>
+/* Responsive Design */
+@media ( max-width : 768px) {
+	.card {
+		width: 100%;
+	}
+	.sidebar {
+		width: 100%;
+		height: auto;
+		box-shadow: none;
+	}
+	.container {
+		flex-direction: column;
+	}
+}
+</style>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="navbar-left">
-        <img src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple" 
-             alt="Company Logo" class="logo">
-        <span class="company-name">HotelEase</span>
-      </div>
-      <div class="navbar-right">
-        <button><a href="/login">Logout</a></button>
-      </div>
-    </nav>
-  </header>
+	<header>
+		<nav class="navbar">
+			<div class="navbar-left">
+				<img
+					src="https://dynamic.design.com/asset/logo/8ec927c7-18bb-4662-8a9d-799bbc45819e/logo-search-grid-1x?logoTemplateVersion=1&v=638677489227330000&text=HotelEase&colorpalette=purple"
+					alt="Company Logo" class="logo"> <span class="company-name">HotelEase</span>
+			</div>
+			<div class="navbar-center">
+				<a href="/mybookings" class="nav-link">My bookings</a>
+			</div>
+			<div class="navbar-right">
+				<button>
+					<a href="/login">Logout</a>
+				</button>
+			</div>
+		</nav>
+	</header>
 
-  <div class="container">
-    <aside class="sidebar">
-      <h3>Locations</h3>
-      <ul id="locationList"></ul>
-    </aside>
-    <main class="dashboard-container">
-      <div class="dashboard">
-        <!-- Hotel Cards will be dynamically loaded here -->
-      </div>
-    </main>
-  </div>
+	<div class="container">
+		<aside class="sidebar">
+			<h3>Locations</h3>
+			<ul id="locationList"></ul>
+		</aside>
+		<main class="dashboard-container">
+			<div class="dashboard">
+				<!-- Hotel Cards will be dynamically loaded here -->
+			</div>
+		</main>
+	</div>
 
-  <div class="modal" id="bookingModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeBookingForm()">&times;</span>
-      <h2>Booking Form</h2>
-      <form id="bookingForm">
-        <label for="checkinDate">Check-in</label>
-        <input type="date" id="checkinDate" name="checkinDate" required>
-        <label for="checkoutDate">Check-out</label>
-        <input type="date" id="checkoutDate" name="checkoutDate" required>
-        <label for="members">Total Members</label>
-        <input type="number" id="members" name="members" required min="1">
-        <label for="adults">Adults</label>
-        <input type="number" id="adults" name="adults" required min="1">
-        <label for="children">Children</label>
-        <input type="number" id="children" name="children" required min="0">
-        <input type="hidden" id="hotelName" name="hotelName">
-        <input type="hidden" id="hotelId" name="hotelId">
-        <button type="submit">Confirm Booking</button>
-      </form>
-    </div>
-  </div>
+	<div class="modal" id="bookingModal">
+		<div class="modal-content">
+			<span class="close" onclick="closeBookingForm()">&times;</span>
+			<h2>Booking Form</h2>
+			<form id="bookingForm">
+				<label for="checkinDate">Check-in</label> <input type="date"
+					id="checkinDate" name="checkinDate" required> <label
+					for="checkoutDate">Check-out</label> <input type="date"
+					id="checkoutDate" name="checkoutDate" required> <label
+					for="members">Total Members</label> <input type="number"
+					id="members" name="members" required min="1"> <label
+					for="adults">Adults</label> <input type="number" id="adults"
+					name="adults" required min="1"> <label for="children">Children</label>
+				<input type="number" id="children" name="children" required min="0">
+				<input type="hidden" id="hotelName" name="hotelName"> <input
+					type="hidden" id="hotelId" name="hotelId">
+				<button type="submit">Confirm Booking</button>
+			</form>
+		</div>
+	</div>
 
-  <footer class="footer">
-    <p>HotelEase | Providing seamless hotel booking solutions since 2024.</p>
-    <p>Contact us: info@hotelease.com | +91 7780275384</p>
-  </footer>
+	<footer class="footer">
+		<p>HotelEase | Providing seamless hotel booking solutions since
+			2024.</p>
+		<p>Contact us: info@hotelease.com | +91 7780275384</p>
+	</footer>
 
-  <script>
-    async function loadHotels() {
-      try {
-        const response = await fetch('http://localhost:8080/api/hotels');
-        const hotels = await response.json();
+	<script>
+  async function loadHotels() {
+    try {
+      const response = await fetch('http://localhost:8080/api/hotels');
+      if (!response.ok) throw new Error('Failed to fetch hotels.');
 
-        // Group hotels by location
-        const locations = [...new Set(hotels.map(hotel => hotel.location))];
+      const hotels = await response.json();
 
-        // Populate location sidebar
-        const locationList = document.getElementById('locationList');
-        locationList.innerHTML = '';
-        locations.forEach(location => {
-          const li = document.createElement('li');
-          li.innerHTML = `<button onclick="filterHotelsByLocation('${location}')">${location}</button>`;
-          locationList.appendChild(li);
-        });
+      // Extract unique locations
+      const locations = [...new Set(hotels.map(hotel => hotel.location))];
 
-        // Display all hotels initially
-        displayHotels(hotels);
-      } catch (error) {
-        console.error('Error loading hotels:', error);
-        alert('Error loading hotels.');
-      }
-    }
-
-    function displayHotels(hotels) {
-      const dashboard = document.querySelector('.dashboard');
-      dashboard.innerHTML = '';
-
-      if (hotels.length === 0) {
-        dashboard.innerHTML = '<p>No hotels available for this location.</p>';
-        return;
-      }
-
-      hotels.forEach(hotel => {
-        const card = document.createElement('div');
-        card.classList.add('card');
-
-        card.innerHTML = `
-          <img src="${hotel.imageUrl1}" alt="${hotel.hotelName}">
-          <h3>${hotel.hotelName}</h3>
-          <p>${hotel.location}</p>
-          <p>Price: Rs ${hotel.price} / day</p>
-          <p>Available Rooms: ${hotel.totalRooms}</p>
-          <button onclick="openBookingForm('${hotel.hotelName}', ${hotel.id})">Book Now</button>
-        `;
-        dashboard.appendChild(card);
+      // Populate the location sidebar
+      const locationList = document.getElementById('locationList');
+      locationList.innerHTML = '';
+      locations.forEach(location => {
+        const li = document.createElement('li');
+        li.innerHTML = `<button onclick="filterHotelsByLocation('${location}')">${location}</button>`;
+        locationList.appendChild(li);
       });
+
+      // Display all hotels initially
+      displayHotels(hotels);
+    } catch (error) {
+      console.error('Error loading hotels:', error);
+      alert('Error loading hotels.');
+    }
+  }
+
+  function displayHotels(hotels) {
+    const dashboard = document.querySelector('.dashboard');
+    dashboard.innerHTML = '';
+
+    if (hotels.length === 0) {
+      dashboard.innerHTML = '<p>No hotels available for this location.</p>';
+      return;
     }
 
-    function filterHotelsByLocation(location) {
-      fetch('http://localhost:8080/api/hotels')
-        .then(response => response.json())
-        .then(hotels => {
-          const filteredHotels = hotels.filter(hotel => hotel.location === location);
-          displayHotels(filteredHotels);
-        })
-        .catch(error => {
-          console.error('Error filtering hotels:', error);
-          alert('Unable to filter hotels.');
-        });
-    }
+    hotels.forEach(hotel => {
+      const card = document.createElement('div');
+      card.classList.add('card');
 
-    function openBookingForm(hotelName, hotelId) {
-      document.getElementById('hotelName').value = hotelName;
-      document.getElementById('hotelId').value = hotelId;
-      document.getElementById('bookingModal').classList.add('active');
-    }
+      card.innerHTML = `
+        <img src="${hotel.imageUrl1 || '/images/Swimming_pool.png'}" alt="${hotel.hotelName}">
+        <h3>${hotel.hotelName}</h3>
+        <p>${hotel.location}</p>
+        <p>Price: Rs ${hotel.price} / day</p>
+        <p>Available Rooms: ${hotel.totalRooms}</p>
+        <button onclick="openBookingForm('${hotel.hotelName}', ${hotel.id})">Book Now</button>
+      `;
+      dashboard.appendChild(card);
+    });
+  }
 
-    function closeBookingForm() {
-      document.getElementById('bookingModal').classList.remove('active');
-    }
+  async function filterHotelsByLocation(location) {
+    try {
+      const response = await fetch('http://localhost:8080/api/hotels');
+      if (!response.ok) throw new Error('Failed to fetch hotels.');
 
-    loadHotels();
-  </script>
+      const hotels = await response.json();
+      const filteredHotels = hotels.filter(hotel => hotel.location === location);
+      displayHotels(filteredHotels);
+    } catch (error) {
+      console.error('Error filtering hotels:', error);
+      alert('Unable to filter hotels.');
+    }
+  }
+
+  function openBookingForm(hotelName, hotelId) {
+    document.getElementById('hotelName').value = hotelName;
+    document.getElementById('hotelId').value = hotelId;
+    document.getElementById('bookingModal').classList.add('active');
+  }
+
+  function closeBookingForm() {
+    document.getElementById('bookingModal').classList.remove('active');
+  }
+
+  async function saveBooking(data) {
+    try {
+      const response = await fetch('http://localhost:8080/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error('Failed to save booking.');
+
+      alert('Booking saved successfully!');
+      closeBookingForm();
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Failed to save booking. Please try again.');
+    }
+  }
+
+  document.getElementById('bookingForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const bookingData = {
+      hotelId: document.getElementById('hotelId').value,
+      hotelName: document.getElementById('hotelName').value,
+      checkinDate: document.getElementById('checkinDate').value,
+      checkoutDate: document.getElementById('checkoutDate').value,
+      members: document.getElementById('members').value,
+      adults: document.getElementById('adults').value,
+      children: document.getElementById('children').value,
+    };
+
+    saveBooking(bookingData);
+  });
+
+  window.onload = loadHotels;
+</script>
+
 </body>
 </html>

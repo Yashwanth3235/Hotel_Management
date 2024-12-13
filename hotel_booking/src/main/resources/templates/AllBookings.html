@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - HotelEase</title>
-        <link rel="stylesheet" href="/css/Dashboard.css">
+  <link rel="stylesheet" href="/css/Dashboard.css">
   
   <style>
     /* Global Styles */
@@ -114,7 +114,7 @@
       padding: 10px 0;
       background-color: black;
       color: white;
-      margin-top: 20px;
+      margin-top: 400px;
     }
   </style>
 </head>
@@ -129,8 +129,7 @@
       <a href="/addHotel" class="nav-link">Add Hotel</a>
       <a href="/hotelslist" class="nav-link">List of Hotels</a>
       <a href="/allbookingslist" class="nav-link">View all bookings</a>
-      <a href="#Customer support" class="nav-link">Customer Support</a>
-     
+      <a href="/customersupport" class="nav-link">Customer Support</a>
     </div>
     <div class="navbar-right">
       <button class="login-btn">
@@ -147,7 +146,6 @@
       <thead>
         <tr>
           <th>Booking ID</th>
-          <th>Hotel Name</th>
           <th>Check-in</th>
           <th>Check-out</th>
           <th>Total Members</th>
@@ -162,9 +160,13 @@
     </table>
   </div>
 
-  <footer class="footer">
-    <p>HotelEase | Admin Dashboard | Contact: admin@hotelease.com</p>
-  </footer>
+ <footer class="footer">
+  <div class="footer-info">
+    <h3>HotelEase</h3>
+    <p>Providing seamless hotel booking solutions since 2024.</p>
+    <p>Contact us: info@hoteleaze.com | +123-456-7890</p>
+  </div>
+</footer>
 
   <script>
     async function loadBookings() {
@@ -172,7 +174,6 @@
         const response = await fetch('http://localhost:8080/api/bookings');
         const bookings = await response.json();
         console.log(bookings); // Check the structure of the data
-
 
         const tableBody = document.getElementById('bookingsTableBody');
         tableBody.innerHTML = '';
@@ -182,7 +183,6 @@
 
           row.innerHTML = `
             <td>${booking.id}</td>
-            <td>${booking.hotel ? booking.hotel.name : 'Unknown Hotel'}</td>
             <td>${booking.checkinDate}</td>
             <td>${booking.checkoutDate}</td>
             <td>${booking.members}</td>

@@ -54,7 +54,13 @@ public class HotelViewController {
 	public String showContactusdetails() {
 		return "Customersupport";
 	}
-  
+    
+    @GetMapping("/mybookings")
+	public String showMyBookings() {
+		return "MyBookings";
+	}
+    
+    
 	
 //	@GetMapping("/bookingform")
 //	public String showbookingform() {

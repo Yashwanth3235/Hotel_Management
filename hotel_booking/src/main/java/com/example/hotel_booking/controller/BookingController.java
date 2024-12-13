@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.hotel_booking.model.BookingModel;
 import com.example.hotel_booking.repository.BookingRepository;
+//import com.example.hotel_booking.service.BookingService;
 
 import java.util.List;
 
@@ -58,4 +59,6 @@ public class BookingController {
         booking.setStatus(status);
         return bookingRepository.save(booking);
     }
+    
+    
 }

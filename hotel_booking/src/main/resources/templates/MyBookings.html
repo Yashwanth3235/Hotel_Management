@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manager Dashboard - Booking List</title>
+<title>User Dashboard - My Bookings</title>
 <link rel="stylesheet" href="/css/Dashboard.css">
 
 <style>
@@ -46,45 +46,42 @@ h1 {
 	background-color: #f2f2f2;
 }
 
-/* Button Styles */
-.btn {
-	padding: 5px 10px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 14px;
-	transition: background-color 0.3s ease;
-}
-
-.btn-approve {
-	background-color: #28a745;
-	color: #fff;
-}
-
-.btn-approve:hover {
-	background-color: #218838;
-}
-
-.btn-reject {
-	background-color: #dc3545;
-	color: #fff;
-}
-
-.btn-reject:hover {
-	background-color: #c82333;
-}
-/* Footer Styles */
-.footer {
-	text-align: center;
-	padding: 10px 0;
+/* Navbar Styles */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 20px;
 	background-color: black;
 	color: white;
-	margin-top: 300px;
+}
+
+.navbar-left {
+	display: flex;
+	align-items: center;
+}
+
+.navbar-left img {
+	height: 40px;
+	margin-right: 10px;
+}
+
+.navbar-right a {
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+}
+
+.navbar-right button {
+	background: none;
+	border: none;
+	color: white;
+	cursor: pointer;
 }
 </style>
 </head>
 <body>
-	<header class="wrapper">
+	<header>
 		<nav class="navbar">
 			<div class="navbar-left">
 				<img
@@ -92,51 +89,48 @@ h1 {
 					alt="Company Logo" class="logo"> <span class="company-name">HotelEase</span>
 			</div>
 			<div class="navbar-center">
-				<a href="/bookingslist" class="nav-link">Bookings</a>
-
+				<a href="/mybookings" class="nav-link">My bookings</a>
 			</div>
 			<div class="navbar-right">
-				<button class="login-btn">
+				<button>
 					<a href="/login">Logout</a>
 				</button>
 			</div>
 		</nav>
 	</header>
-	<h1>Manager Dashboard - Booking List</h1>
+	<h1>My Bookings</h1>
 	<table class="booking-table">
 		<thead>
 			<tr>
-				<th>No.</th>
-				<th>Hotel ID</th>
+				<th>S No.</th>
 				<th>Check-in</th>
 				<th>Check-out</th>
 				<th>Members</th>
 				<th>Adults</th>
 				<th>Children</th>
 				<th>Status</th>
-				<th>Actions</th>
 			</tr>
 		</thead>
-		<tbody id="booking-list">
-			<!-- Booking rows will be dynamically loaded here -->
+		<tbody id="user-booking-list">
+			<!-- User's booking rows will be dynamically loaded here -->
 		</tbody>
 	</table>
 
 	<footer class="footer">
-		<div class="footer-info">
-			<h3>HotelEase</h3>
-			<p>Providing seamless hotel booking solutions since 2024.</p>
-			<p>Contact us: info@hoteleaze.com | +123-456-7890</p>
-		</div>
+		<p>HotelEase | Providing seamless hotel booking solutions since
+			2024.</p>
+		<p>Contact us: info@hotelease.com | +91 7780275384</p>
 	</footer>
 
 	<script>
-    async function loadBookings() {
+    async function loadUserBookings() {
       try {
-        const response = await fetch('http://localhost:8080/api/bookings');
+        // Replace with actual user ID or authentication mechanism
+        const userId = 123; // Example user ID
+        const response = await fetch(`http://localhost:8080/api/bookings?userId=${userId}`);
         const bookings = await response.json();
 
-        const bookingList = document.getElementById('booking-list');
+        const bookingList = document.getElementById('user-booking-list');
         bookingList.innerHTML = ''; // Clear any existing rows
 
         bookings.forEach((booking, index) => {
@@ -144,17 +138,12 @@ h1 {
 
           row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${booking.hotelId}</td>
             <td>${booking.checkinDate}</td>
             <td>${booking.checkoutDate}</td>
             <td>${booking.members}</td>
             <td>${booking.adults}</td>
             <td>${booking.children}</td>
             <td>${booking.status}</td>
-            <td>
-              <button class="btn btn-approve" onclick="updateBookingStatus(${booking.id}, 'APPROVED')">Approve</button>
-              <button class="btn btn-reject" onclick="updateBookingStatus(${booking.id}, 'REJECTED')">Reject</button>
-            </td>
           `;
           bookingList.appendChild(row);
         });
@@ -164,26 +153,8 @@ h1 {
       }
     }
 
-    async function updateBookingStatus(id, status) {
-      try {
-        const response = await fetch(`http://localhost:8080/api/bookings/${id}/status?status=${status}`, {
-          method: 'PUT',
-        });
-
-        if (response.ok) {
-          alert(`Booking has been ${status.toLowerCase()}!`);
-          loadBookings(); // Reload bookings after status update
-        } else {
-          alert('Failed to update booking status.');
-        }
-      } catch (error) {
-        console.error('Error updating booking status:', error);
-        alert('Error updating booking status.');
-      }
-    }
-
     // Load bookings on page load
-    window.onload = loadBookings;
+    window.onload = loadUserBookings;
   </script>
 </body>
 </html>
